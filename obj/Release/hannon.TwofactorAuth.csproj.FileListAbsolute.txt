@@ -1,0 +1,13 @@
+C:\git\2FactorAuth\hannon.TwoFactorAuth\hannon.TwofactorAuth\bin\Release\hannon.TwoFactorAuth.dll.config
+C:\git\2FactorAuth\hannon.TwoFactorAuth\hannon.TwofactorAuth\bin\Release\hannon.TwoFactorAuth.dll
+C:\git\2FactorAuth\hannon.TwoFactorAuth\hannon.TwofactorAuth\bin\Release\hannon.TwoFactorAuth.pdb
+C:\git\2FactorAuth\hannon.TwoFactorAuth\hannon.TwofactorAuth\bin\Release\JWT.dll
+C:\git\2FactorAuth\hannon.TwoFactorAuth\hannon.TwofactorAuth\bin\Release\Newtonsoft.Json.dll
+C:\git\2FactorAuth\hannon.TwoFactorAuth\hannon.TwofactorAuth\bin\Release\Twilio.dll
+C:\git\2FactorAuth\hannon.TwoFactorAuth\hannon.TwofactorAuth\bin\Release\Newtonsoft.Json.xml
+C:\git\2FactorAuth\hannon.TwoFactorAuth\hannon.TwofactorAuth\bin\Release\Twilio.xml
+C:\git\2FactorAuth\hannon.TwoFactorAuth\hannon.TwofactorAuth\obj\Release\hannon.TwofactorAuth.csproj.CoreCompileInputs.cache
+C:\git\2FactorAuth\hannon.TwoFactorAuth\hannon.TwofactorAuth\obj\Release\hannon.TwofactorAuth.csproj.CopyComplete
+C:\git\2FactorAuth\hannon.TwoFactorAuth\hannon.TwofactorAuth\obj\Release\hannon.TwoFactorAuth.dll
+C:\git\2FactorAuth\hannon.TwoFactorAuth\hannon.TwofactorAuth\obj\Release\hannon.TwoFactorAuth.pdb
+C:\git\2FactorAuth\hannon.TwoFactorAuth\hannon.TwofactorAuth\obj\Release\hannon.TwofactorAuth.csprojAssemblyReference.cache
