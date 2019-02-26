@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using hannon._2factorAuth.Models;
 using hannon.TwoFactorAuth.Models;
-namespace hannon._2factorAuth
+using System.Web;
+namespace hannon.TwoFactorAuth.Models
 {
     public interface ITwoFactorAuth
     {
-        TwoFactorResponseModel CreateTwoFactorAuth(TwoFactorRequestModel model);
-        TwoFactorResponseModel VerifyCode(TwoFactorRequestModel model);
+        TwoFactorResponseModel CreateTwoFactorAuth(TwoFactorRequestModel model, HttpSessionStateBase session);
+        TwoFactorResponseModel VerifyCode(string code);
     }
 }

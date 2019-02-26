@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using hannon._2factorAuth.Models;
 using hannon.TwoFactorAuth.Providers;
 using hannon.TwoFactorAuth.Models;
@@ -23,11 +24,16 @@ namespace hannon._2factorAuth
             _smsProvider = new SmsMessageTwilio(model.AccountSID, model.AuthToken, "SMS Verification Code");
         }
 
-        public TwoFactorResponseModel CreateTwoFactorAuth(TwoFactorRequestModel model)
+        public TwoFactorResponseModel CreateTwoFactorAuth(TwoFactorRequestModel model, 
+            HttpSessionStateBase session)
         {
             var response = new TwoFactorResponseModel();
             //create the key 
             var code = Helpers.GenerateRandomNumber();
+
+            //set the code in the session 
+            session["AuthCode"] = code;
+
             //send to provider
             switch (model.Provider)
             {
@@ -39,6 +45,8 @@ namespace hannon._2factorAuth
                             Status = true,
                             Message = "Message successfully sent, please check your email."
                         };
+                        //Assign code to session...
+                        //Session.Add("name", response.);
                     break;
                 case Provider.SMS:
                     var smsResponse = _smsProvider.SendMessage(_twoFactorConfigs.TwoFactorAuthFromPhone, model.UserValue,
@@ -48,6 +56,7 @@ namespace hannon._2factorAuth
                             Status = smsResponse.Status,
                             Message = smsResponse.Message
                         };
+                        //Assign code to session...
                     break;
                 default:
                     response.Message = "Please define indicate which provider you want to use, sms or email.";
@@ -62,14 +71,15 @@ namespace hannon._2factorAuth
         //SMSMessage
         //
 
-        public TwoFactorResponseModel VerifyCode(TwoFactorRequestModel model)
+        public TwoFactorResponseModel VerifyCode(string code)
         {
             //create the key and send to provider
             //create a cookie by the name 
             //set the cookie life
+            //
             var response = new TwoFactorResponseModel();
 
-            throw new NotImplementedException();
+            return response;
         }
 
     }
