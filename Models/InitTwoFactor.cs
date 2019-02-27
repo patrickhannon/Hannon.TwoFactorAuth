@@ -15,5 +15,6 @@ namespace hannon.TwoFactorAuth.Models
         public string TwoFactorAuthFromPhone { get; set; }
         public string AuthToken { get; set; }
         public string AccountSID { get; set; }
+        public bool TwoFactorEnabled { get; set; }
     }
 }

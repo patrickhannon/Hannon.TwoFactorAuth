@@ -11,6 +11,7 @@ namespace hannon.TwoFactorAuth.Models
     public interface ITwoFactorAuth
     {
         TwoFactorResponseModel CreateTwoFactorAuth(TwoFactorRequestModel model, HttpSessionStateBase session);
-        TwoFactorResponseModel VerifyCode(string code);
+        TwoFactorResponseModel VerifyCode(string code, HttpSessionStateBase session, HttpResponseBase httpResponse);
+        TwoFactorResponseModel VerifyTwoFactor(HttpRequestBase request, DateTime utcDateExpire, bool verified);
     }
 }

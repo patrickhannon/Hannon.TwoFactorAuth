@@ -9,6 +9,7 @@ using hannon.TwoFactorAuth.Providers;
 using hannon.TwoFactorAuth.Models;
 using hannon.TwoFactorAuth;
 using hannon.TwoFactorAuth.Util;
+using System.Diagnostics;
 namespace hannon._2factorAuth
 {
     public class TwoFactorAuth : ITwoFactorAuth
@@ -34,54 +35,103 @@ namespace hannon._2factorAuth
             //set the code in the session 
             session["AuthCode"] = code;
 
+            Debug.WriteLine(string.Format("The generated code is: {0}",code));
+
             //send to provider
-            switch (model.Provider)
+            if (_twoFactorConfigs.TwoFactorEnabled)
             {
-                case Provider.Email:
-                    if (_emailProvider.SendEmail(model.UserValue, "Verification Code..",
-                        string.Format("Your {0} Verification code is: {1}", "Company Here", code)))
-                        response = new TwoFactorResponseModel()
-                        {
-                            Status = true,
-                            Message = "Message successfully sent, please check your email."
-                        };
+                switch (model.Provider)
+                {
+                    case Provider.Email:
+                        if (_emailProvider.SendEmail(model.UserValue, "Verification Code..",
+                            string.Format("Your {0} Verification code is: {1}", "Company Here", code)))
+                            response = new TwoFactorResponseModel()
+                            {
+                                Status = true,
+                                Message = "Message successfully sent, please check your email."
+                            };
                         //Assign code to session...
                         //Session.Add("name", response.);
-                    break;
-                case Provider.SMS:
-                    var smsResponse = _smsProvider.SendMessage(_twoFactorConfigs.TwoFactorAuthFromPhone, model.UserValue,
-                        string.Format("Your {0} Verification code is: {1}", "Company Here", code));
-                        response  = new TwoFactorResponseModel()
+                        break;
+                    case Provider.SMS:
+                        var smsResponse = _smsProvider.SendMessage(_twoFactorConfigs.TwoFactorAuthFromPhone,
+                            model.UserValue,
+                            string.Format("Your {0} Verification code is: {1}", "Company Here", code));
+                        response = new TwoFactorResponseModel()
                         {
                             Status = smsResponse.Status,
                             Message = smsResponse.Message
                         };
                         //Assign code to session...
-                    break;
-                default:
-                    response.Message = "Please define indicate which provider you want to use, sms or email.";
-                    response.Status = false;
-                break;
+                        break;
+                    default:
+                        response.Message = "Please define indicate which provider you want to use, sms or email.";
+                        response.Status = false;
+                        break;
+                }
+            }
+            else
+            {
+                response = new TwoFactorResponseModel()
+                {
+                    Status = true,
+                    Message = "Two factor has been disabled"
+                };
             }
             return response;
         }
-        //IsVerified
-        //SetSetCookieLength
-        //Email
-        //SMSMessage
-        //
 
-        public TwoFactorResponseModel VerifyCode(string code)
+        public TwoFactorResponseModel VerifyCode(string code, 
+            HttpSessionStateBase session, 
+            HttpResponseBase httpResponse)
         {
             //create the key and send to provider
             //create a cookie by the name 
             //set the cookie life
-            //
             var response = new TwoFactorResponseModel();
-
-            return response;
+            var sess = session["AuthCode"];
+            if (sess != null)
+            {
+                var sCode = session["AuthCode"] as string;
+                if (sCode.Equals(code))
+                {
+                    //set the cookie in the session for indicated time span
+                    var cookie = new HttpCookie(_twoFactorConfigs.TwoFactorAuthCookie);
+                    cookie.Value = sCode;
+                    cookie.Expires = DateTime.Now.AddDays(_twoFactorConfigs.TwoFactorAuthTimeSpan);
+                    httpResponse.Cookies.Add(cookie);
+                    return new TwoFactorResponseModel()
+                    {
+                        Status = true,
+                        Message = "Code was successfully verified"
+                    };
+                }
+            }
+            return new TwoFactorResponseModel()
+            {
+                Status = false,
+                Message = "Code was not successfully verified, please try again."
+            };
         }
 
+        public TwoFactorResponseModel VerifyTwoFactor(HttpRequestBase request, 
+            DateTime utcDateExpire, bool verified)
+        {
+            var nowUtc = DateTime.UtcNow;
+            var response = new TwoFactorResponseModel();
+            if (request.Cookies[_twoFactorConfigs.TwoFactorAuthCookie] != null
+                || utcDateExpire > nowUtc || verified)
+            {
+                response.Status = true;
+                response.Message = "You are verified.";
+            }
+            else
+            {
+                response.Status = false;
+                response.Message = "You are not verified.";
+            }
+            return response;
+        }
     }
     public enum Provider { Email, SMS };
 }
