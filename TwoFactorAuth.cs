@@ -10,6 +10,9 @@ using hannon.TwoFactorAuth.Models;
 using hannon.TwoFactorAuth;
 using hannon.TwoFactorAuth.Util;
 using System.Diagnostics;
+using Hannon.Utils;
+using Twilio.Jwt.Taskrouter;
+
 namespace hannon._2factorAuth
 {
     public class TwoFactorAuth : ITwoFactorAuth
@@ -21,7 +24,10 @@ namespace hannon._2factorAuth
         {
             ArgumentValidator.ThrowOnNull("model", model);
             _twoFactorConfigs = model;
-            _emailProvider = new EmailProvider(model.TwoFactorAuthSmtpHost, model.TwoFactorAuthFromEmail);
+            _emailProvider = new EmailProvider(
+                model.TwoFactorAuthSmtpHost, 
+                model.TwoFactorAuthFromEmail,
+                model.EmailPassword);
             _smsProvider = new SmsMessageTwilio(model.AccountSID, model.AuthToken, "SMS Verification Code");
         }
 
@@ -97,7 +103,7 @@ namespace hannon._2factorAuth
                 {
                     //set the cookie in the session for indicated time span
                     var cookie = new HttpCookie(_twoFactorConfigs.TwoFactorAuthCookie);
-                    cookie.Value = sCode;
+                    cookie.Value = Utils.Protect(sCode);
                     cookie.Expires = DateTime.Now.AddDays(_twoFactorConfigs.TwoFactorAuthTimeSpan);
                     httpResponse.Cookies.Add(cookie);
                     return new TwoFactorResponseModel()
@@ -120,7 +126,7 @@ namespace hannon._2factorAuth
             var nowUtc = DateTime.UtcNow;
             var response = new TwoFactorResponseModel();
             if (request.Cookies[_twoFactorConfigs.TwoFactorAuthCookie] != null
-                || utcDateExpire > nowUtc || verified)
+                && utcDateExpire > nowUtc && verified)
             {
                 response.Status = true;
                 response.Message = "You are verified.";

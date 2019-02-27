@@ -21,3 +21,5 @@ C:\SourceControl\Hannon.TwoFactorAuth\obj\Debug\hannon.TwofactorAuth.csproj.Copy
 C:\SourceControl\Hannon.TwoFactorAuth\obj\Debug\hannon.TwoFactorAuth.dll
 C:\SourceControl\Hannon.TwoFactorAuth\obj\Debug\hannon.TwoFactorAuth.pdb
 C:\SourceControl\Hannon.TwoFactorAuth\obj\Debug\hannon.TwofactorAuth.csprojAssemblyReference.cache
+C:\SourceControl\Hannon.TwoFactorAuth\bin\Debug\Hannon.Utils.dll
+C:\SourceControl\Hannon.TwoFactorAuth\bin\Debug\Hannon.Utils.pdb

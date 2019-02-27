@@ -16,5 +16,6 @@ namespace hannon.TwoFactorAuth.Models
         public string AuthToken { get; set; }
         public string AccountSID { get; set; }
         public bool TwoFactorEnabled { get; set; }
+        public string EmailPassword { get; set; }
     }
 }
