@@ -37,12 +37,11 @@ namespace hannon._2factorAuth
             var response = new TwoFactorResponseModel();
             //create the key 
             var code = Helpers.GenerateRandomNumber();
-
             //set the code in the session 
             session["AuthCode"] = code;
-
-            Debug.WriteLine(string.Format("The generated code is: {0}",code));
-
+            var codeMess = string.Format("The generated code is: {0}", code);
+            Debug.WriteLine(codeMess);
+            Utils.LogToEventLog("Application", codeMess, EventLogEntryType.Information);
             //send to provider
             if (_twoFactorConfigs.TwoFactorEnabled)
             {

@@ -22,3 +22,5 @@ C:\SourceControl\Hannon.TwoFactorAuth\obj\Release\hannon.TwofactorAuth.csproj.Co
 C:\SourceControl\Hannon.TwoFactorAuth\obj\Release\hannon.TwofactorAuth.csproj.CopyComplete
 C:\SourceControl\Hannon.TwoFactorAuth\obj\Release\hannon.TwoFactorAuth.dll
 C:\SourceControl\Hannon.TwoFactorAuth\obj\Release\hannon.TwoFactorAuth.pdb
+C:\SourceControl\Hannon.TwoFactorAuth\bin\Release\Hannon.Utils.dll
+C:\SourceControl\Hannon.TwoFactorAuth\bin\Release\Hannon.Utils.pdb
